@@ -6,6 +6,8 @@ import { UnifiedSidebar } from './shared/UnifiedSidebar';
 import { UnifiedHeader } from './shared/UnifiedHeader';
 import { UnifiedBottomNav } from './shared/UnifiedBottomNav';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsMobile } from '@/hooks/useBreakpoint';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { clearAllCaches } from '@/components/shared/PWAUpdatePrompt';
 
 interface UnifiedPortalLayoutProps {
