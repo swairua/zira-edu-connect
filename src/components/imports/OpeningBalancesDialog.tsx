@@ -232,7 +232,7 @@ export function OpeningBalancesDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="w-full max-w-2xl sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Import Opening Balances</DialogTitle>
           <DialogDescription>
