@@ -235,10 +235,10 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                         </Badge>
                       )}
 
-                      <div className="space-y-4">
+                      <div className="space-y-3 sm:space-y-4">
                         <div>
-                          <h3 className="font-semibold text-lg">{plan.name}</h3>
-                          <p className="text-sm text-muted-foreground">{plan.description}</p>
+                          <h3 className="font-semibold text-base sm:text-lg">{plan.name}</h3>
+                          <p className="text-xs sm:text-sm text-muted-foreground">{plan.description}</p>
                         </div>
 
                         <div>
