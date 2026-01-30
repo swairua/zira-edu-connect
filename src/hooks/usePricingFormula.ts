@@ -43,7 +43,7 @@ export function usePricingFormulaRates() {
         .single();
 
       if (error) {
-        console.error('Error fetching pricing rates:', error);
+        console.error('Error fetching pricing rates:', error?.message || error?.details || JSON.stringify(error));
         return DEFAULT_RATES;
       }
 
