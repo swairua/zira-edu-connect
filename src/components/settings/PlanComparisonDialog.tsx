@@ -218,7 +218,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                       key={plan.id}
                       onClick={() => handleSelectPlan(plan.id)}
                       className={cn(
-                        "relative rounded-lg border p-4 cursor-pointer transition-all",
+                        "relative rounded-lg border p-3 sm:p-4 cursor-pointer transition-all",
                         isCurrent && "border-primary/50 bg-primary/5 cursor-not-allowed",
                         isSelected && "border-primary ring-2 ring-primary",
                         !isCurrent && !isSelected && "hover:border-muted-foreground/50"
