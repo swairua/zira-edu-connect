@@ -14,6 +14,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ParentRoute } from "@/components/auth/ParentRoute";
 import { GroupRoute } from "@/components/auth/GroupRoute";
 import { usePushNotifications } from "@/hooks/usePushNotifications";
+import { initializeAuthConfig } from "@/config/authConfig";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import Institutions from "./pages/Institutions";
@@ -264,6 +265,11 @@ const queryClient = new QueryClient({
 
 function App() {
   usePushNotifications();
+
+  useEffect(() => {
+    // Initialize auth configuration on app startup
+    initializeAuthConfig();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,11 +1,25 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
+/**
+ * Capacitor Configuration with Dynamic Android Auth URL Support
+ *
+ * The setup-android-auth.js script will inject:
+ * - authUrl: Authentication endpoint URL
+ * - url: Server URL for Capacitor to proxy requests
+ */
+
+// Get auth URL from environment variables (set by setup-android-auth.js)
+const authUrl = process.env.VITE_AUTH_URL || 'https://ziraedx.com/auth';
+const capacitorUrl = process.env.VITE_CAPACITOR_URL || undefined;
+
 const config: CapacitorConfig = {
   appId: 'com.ziraeduconnect.app',
   appName: 'Zira Edu Connect',
   webDir: 'dist',
+  authUrl: authUrl,
   server: {
     androidScheme: 'https',
+    ...(capacitorUrl && { url: capacitorUrl }),
   },
   plugins: {
     StatusBar: {

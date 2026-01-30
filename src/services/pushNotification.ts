@@ -1,5 +1,14 @@
 import { PushNotifications, Token, PushNotificationSchema } from '@capacitor/push-notifications';
+import { Capacitor } from '@capacitor/core';
 import { supabase } from '@/integrations/supabase/client';
+
+/**
+ * Check if running on a native platform
+ */
+function isNativePlatform(): boolean {
+  const platform = Capacitor.getPlatform();
+  return platform === 'ios' || platform === 'android';
+}
 
 /**
  * Initialize push notifications
@@ -7,6 +16,12 @@ import { supabase } from '@/integrations/supabase/client';
  */
 export async function initializePushNotifications() {
   try {
+    // Only initialize on native platforms
+    if (!isNativePlatform()) {
+      console.log('Push notifications only available on native platforms (iOS/Android)');
+      return;
+    }
+
     // Request notification permission
     const permStatus = await PushNotifications.checkPermissions();
     
@@ -72,6 +87,11 @@ export async function getAndStoreFCMToken(): Promise<string | null> {
  * Setup push notification listeners
  */
 export function setupPushNotificationListeners() {
+  // Only setup listeners on native platforms
+  if (!isNativePlatform()) {
+    return;
+  }
+
   // Handle token refresh
   PushNotifications.addListener('registration', (event: Token) => {
     console.log('Push registration successful, token:', event.value);
@@ -161,6 +181,9 @@ function handleNotificationTap(notification: PushNotificationSchema) {
  * Remove all push notification listeners
  */
 export function removePushNotificationListeners() {
+  if (!isNativePlatform()) {
+    return;
+  }
   PushNotifications.removeAllListeners();
 }
 
@@ -169,6 +192,12 @@ export function removePushNotificationListeners() {
  */
 export async function requestNotificationPermission(): Promise<boolean> {
   try {
+    // Only request permission on native platforms
+    if (!isNativePlatform()) {
+      console.log('Notification permissions only available on native platforms');
+      return false;
+    }
+
     const result = await PushNotifications.requestPermissions();
     return result.receive !== 'denied';
   } catch (error) {
