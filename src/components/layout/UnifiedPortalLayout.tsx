@@ -6,6 +6,8 @@ import { UnifiedSidebar } from './shared/UnifiedSidebar';
 import { UnifiedHeader } from './shared/UnifiedHeader';
 import { UnifiedBottomNav } from './shared/UnifiedBottomNav';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsMobile } from '@/hooks/useBreakpoint';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { clearAllCaches } from '@/components/shared/PWAUpdatePrompt';
 
 interface UnifiedPortalLayoutProps {
@@ -45,7 +47,9 @@ export function UnifiedPortalLayout({
 }: UnifiedPortalLayoutProps) {
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     // Clear PWA caches to ensure fresh content on next login
@@ -85,12 +89,26 @@ export function UnifiedPortalLayout({
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar (desktop/tablet) */}
-        <UnifiedSidebar
-          portalType={portalType}
-          onLogout={handleLogout}
-          collapsed={sidebarCollapsed}
-          onCollapsedChange={setSidebarCollapsed}
-        />
+        {!isMobile && (
+          <UnifiedSidebar
+            portalType={portalType}
+            onLogout={handleLogout}
+            collapsed={sidebarCollapsed}
+            onCollapsedChange={setSidebarCollapsed}
+          />
+        )}
+
+        {/* Mobile Drawer */}
+        {isMobile && (
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetContent side="left" className="w-64 p-0">
+              <UnifiedSidebar
+                portalType={portalType}
+                onLogout={handleLogout}
+              />
+            </SheetContent>
+          </Sheet>
+        )}
 
         {/* Main Content Area */}
         <div className="flex flex-1 flex-col overflow-hidden">
@@ -103,6 +121,7 @@ export function UnifiedPortalLayout({
             isRefreshing={isRefreshing}
             actions={actions}
             rightContent={rightContent}
+            onMobileMenuToggle={isMobile ? () => setMobileMenuOpen(true) : undefined}
           />
 
           {/* Main Content */}

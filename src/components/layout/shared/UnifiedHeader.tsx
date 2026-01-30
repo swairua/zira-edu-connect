@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { RefreshCw, Search, HelpCircle, Bell } from 'lucide-react';
+import { RefreshCw, Search, HelpCircle, Bell, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ interface UnifiedHeaderProps {
   actions?: ReactNode;
   rightContent?: ReactNode;
   notificationCount?: number;
+  onMobileMenuToggle?: () => void;
 }
 
 export function UnifiedHeader({
@@ -25,6 +26,7 @@ export function UnifiedHeader({
   actions,
   rightContent,
   notificationCount = 0,
+  onMobileMenuToggle,
 }: UnifiedHeaderProps) {
   const branding = getPortalBranding(portalType);
   const BrandIcon = branding.icon;
@@ -32,8 +34,19 @@ export function UnifiedHeader({
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6">
-        {/* Mobile: Portal Name */}
+        {/* Mobile: Hamburger + Portal Name */}
         <div className="flex items-center gap-3 md:hidden">
+          {onMobileMenuToggle && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onMobileMenuToggle}
+              className="h-9 w-9"
+              aria-label="Toggle navigation menu"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          )}
           <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', branding.iconBgClass)}>
             <BrandIcon className="h-4 w-4 text-white" />
           </div>

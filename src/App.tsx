@@ -13,6 +13,8 @@ import { PWAUpdatePrompt } from "@/components/shared/PWAUpdatePrompt";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ParentRoute } from "@/components/auth/ParentRoute";
 import { GroupRoute } from "@/components/auth/GroupRoute";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
+import { useEffect } from "react";
 import Index from "./pages/Index";
 import Institutions from "./pages/Institutions";
 import AddInstitution from "./pages/AddInstitution";
@@ -99,6 +101,7 @@ import BulkSMS from "./pages/communication/BulkSMS";
 import Announcements from "./pages/communication/Announcements";
 import SMSHistory from "./pages/communication/SMSHistory";
 import MessageTemplates from "./pages/communication/MessageTemplates";
+import PushNotifications from "./pages/communication/PushNotifications";
 // Advanced Reports Pages
 import ReportsDashboard from "./pages/advancedreports/ReportsDashboard";
 import AdvancedFinancialReports from "./pages/advancedreports/FinancialReports";
@@ -259,8 +262,11 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+function App() {
+  usePushNotifications();
+
+  return (
+    <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
         <StudentAuthProvider>
@@ -846,6 +852,14 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/communication/push-notifications"
+                element={
+                  <ProtectedRoute permission={{ domain: "communication", action: "create" }} requiresInstitution>
+                    <PushNotifications />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Advanced Reports Routes */}
               <Route
@@ -1103,6 +1117,7 @@ const App = () => (
     </AuthProvider>
   </TooltipProvider>
 </QueryClientProvider>
-);
+  );
+}
 
 export default App;
