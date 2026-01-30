@@ -34,7 +34,7 @@ export function PayslipViewDialog({ open, onOpenChange, payslip }: PayslipViewDi
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="w-full max-w-sm sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Payslip Details</DialogTitle>
         </DialogHeader>

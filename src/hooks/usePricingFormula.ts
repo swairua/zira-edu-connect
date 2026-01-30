@@ -39,20 +39,26 @@ export function usePricingFormulaRates() {
       const { data, error } = await supabase
         .from('billing_settings')
         .select('tier_base_setup_fee, tier_per_learner_setup, tier_base_annual_fee, tier_per_learner_annual, tier_private_multiplier')
-        .limit(1)
-        .single();
+        .limit(1);
 
       if (error) {
-        console.error('Error fetching pricing rates:', error);
+        console.error('Error fetching pricing rates:', error?.message || error?.details || JSON.stringify(error));
         return DEFAULT_RATES;
       }
 
+      // Handle case where no records exist
+      if (!data || data.length === 0) {
+        console.warn('No billing_settings record found, using default rates');
+        return DEFAULT_RATES;
+      }
+
+      const record = data[0];
       return {
-        tier_base_setup_fee: data.tier_base_setup_fee ?? DEFAULT_RATES.tier_base_setup_fee,
-        tier_per_learner_setup: data.tier_per_learner_setup ?? DEFAULT_RATES.tier_per_learner_setup,
-        tier_base_annual_fee: data.tier_base_annual_fee ?? DEFAULT_RATES.tier_base_annual_fee,
-        tier_per_learner_annual: data.tier_per_learner_annual ?? DEFAULT_RATES.tier_per_learner_annual,
-        tier_private_multiplier: data.tier_private_multiplier ?? DEFAULT_RATES.tier_private_multiplier,
+        tier_base_setup_fee: record.tier_base_setup_fee ?? DEFAULT_RATES.tier_base_setup_fee,
+        tier_per_learner_setup: record.tier_per_learner_setup ?? DEFAULT_RATES.tier_per_learner_setup,
+        tier_base_annual_fee: record.tier_base_annual_fee ?? DEFAULT_RATES.tier_base_annual_fee,
+        tier_per_learner_annual: record.tier_per_learner_annual ?? DEFAULT_RATES.tier_per_learner_annual,
+        tier_private_multiplier: record.tier_private_multiplier ?? DEFAULT_RATES.tier_private_multiplier,
       };
     },
   });
@@ -64,14 +70,30 @@ export function useUpdatePricingFormulaRates() {
 
   return useMutation({
     mutationFn: async (rates: Partial<PricingFormulaRates>) => {
-      const { data: existing } = await supabase
+      const { data: existing, error: fetchError } = await supabase
         .from('billing_settings')
         .select('id')
-        .limit(1)
-        .single();
+        .limit(1);
 
-      if (!existing) {
-        throw new Error('Billing settings not found');
+      if (fetchError) {
+        throw new Error(`Failed to fetch billing settings: ${fetchError.message}`);
+      }
+
+      // If no record exists, create one
+      if (!existing || existing.length === 0) {
+        const { error: insertError } = await supabase
+          .from('billing_settings')
+          .insert([{
+            ...DEFAULT_RATES,
+            ...rates,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }]);
+
+        if (insertError) {
+          throw new Error(`Failed to create billing settings: ${insertError.message}`);
+        }
+        return;
       }
 
       const { error } = await supabase
@@ -80,9 +102,11 @@ export function useUpdatePricingFormulaRates() {
           ...rates,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', existing.id);
+        .eq('id', existing[0].id);
 
-      if (error) throw error;
+      if (error) {
+        throw new Error(`Failed to update billing settings: ${error.message}`);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pricing-formula-rates'] });

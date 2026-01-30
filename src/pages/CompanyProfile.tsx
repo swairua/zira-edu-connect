@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { ProfileHero } from "@/components/company-profile/ProfileHero";
 import { AboutSection } from "@/components/company-profile/AboutSection";
 import { PlatformShowcase } from "@/components/company-profile/PlatformShowcase";
@@ -33,13 +34,14 @@ const CompanyProfile = () => {
 
   return (
     <div className="min-h-screen bg-background" data-page="company-profile">
-      <SEOHead 
+      <SEOHead
         title="Zira Technologies - Company Profile | Leading African EdTech Company"
         description="Zira Technologies is a Kenyan technology company powering African digital transformation. Explore our platforms: EduSuite, Homes, Lock, SMS, Social, and Shop."
         canonicalUrl="https://zira-edusuite.lovable.app/company-profile"
       />
       <StructuredData data={getOrganizationSchema()} />
-      
+
+      <LandingNavbar />
       <ProfileHero onDownloadPDF={handleDownloadPDF} isGeneratingPDF={isGeneratingPDF} />
       <AboutSection />
       <PlatformShowcase />

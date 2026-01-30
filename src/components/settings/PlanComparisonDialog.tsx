@@ -139,7 +139,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-full max-w-2xl sm:max-w-4xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Crown className="h-5 w-5 text-primary" />
@@ -153,18 +153,18 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
         {step === 'select' && (
           <div className="space-y-6">
             {/* Billing Cycle Toggle - Dynamic based on settings */}
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
               {enabledCycles.includes('annual') && (
                 <Button
                   variant={billingCycle === 'annual' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setBillingCycle('annual')}
-                  className="gap-1"
+                  className="gap-1 text-xs sm:text-sm"
                 >
                   <Sparkles className="h-3 w-3" />
-                  Annual
+                  <span>Annual</span>
                   {billingSettings?.annual_discount_percent && billingSettings.annual_discount_percent > 0 && (
-                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800">
+                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800 text-xs">
                       Save {billingSettings.annual_discount_percent}%
                     </Badge>
                   )}
@@ -175,12 +175,12 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                   variant={billingCycle === 'termly' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setBillingCycle('termly')}
-                  className="gap-1"
+                  className="gap-1 text-xs sm:text-sm"
                 >
                   <Calendar className="h-3 w-3" />
-                  Termly
+                  <span>Termly</span>
                   {billingSettings?.termly_discount_percent && billingSettings.termly_discount_percent > 0 && (
-                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800">
+                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800 text-xs">
                       Save {billingSettings.termly_discount_percent}%
                     </Badge>
                   )}
@@ -191,6 +191,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                   variant={billingCycle === 'monthly' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setBillingCycle('monthly')}
+                  className="text-xs sm:text-sm"
                 >
                   Monthly
                 </Button>
@@ -207,7 +208,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                 No plans available. Please contact support.
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {plans?.filter(p => p.id !== 'custom').map((plan) => {
                   const isCurrent = plan.id === currentPlanId;
                   const isSelected = plan.id === selectedPlan;
@@ -218,7 +219,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                       key={plan.id}
                       onClick={() => handleSelectPlan(plan.id)}
                       className={cn(
-                        "relative rounded-lg border p-4 cursor-pointer transition-all",
+                        "relative rounded-lg border p-3 sm:p-4 cursor-pointer transition-all",
                         isCurrent && "border-primary/50 bg-primary/5 cursor-not-allowed",
                         isSelected && "border-primary ring-2 ring-primary",
                         !isCurrent && !isSelected && "hover:border-muted-foreground/50"
@@ -235,36 +236,36 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                         </Badge>
                       )}
 
-                      <div className="space-y-4">
+                      <div className="space-y-3 sm:space-y-4">
                         <div>
-                          <h3 className="font-semibold text-lg">{plan.name}</h3>
-                          <p className="text-sm text-muted-foreground">{plan.description}</p>
+                          <h3 className="font-semibold text-base sm:text-lg">{plan.name}</h3>
+                          <p className="text-xs sm:text-sm text-muted-foreground">{plan.description}</p>
                         </div>
 
                         <div>
-                          <span className="text-2xl font-bold">
+                          <span className="text-xl sm:text-2xl font-bold">
                             KES {price.toLocaleString()}
                           </span>
-                          <span className="text-muted-foreground">
+                          <span className="text-xs sm:text-sm text-muted-foreground">
                             {getBillingCycleShort(billingCycle)}
                           </span>
                         </div>
 
                         <Separator />
 
-                        <ul className="space-y-2 text-sm">
-                          <li className="flex items-center gap-2">
-                            <Check className="h-4 w-4 text-primary" />
-                            {plan.max_students === -1 ? 'Unlimited' : plan.max_students} students
+                        <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                          <li className="flex items-start gap-2">
+                            <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{plan.max_students === -1 ? 'Unlimited' : plan.max_students} students</span>
                           </li>
-                          <li className="flex items-center gap-2">
-                            <Check className="h-4 w-4 text-primary" />
-                            {plan.max_staff === -1 ? 'Unlimited' : plan.max_staff} staff
+                          <li className="flex items-start gap-2">
+                            <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{plan.max_staff === -1 ? 'Unlimited' : plan.max_staff} staff</span>
                           </li>
                           {(Array.isArray(plan.features) ? plan.features as string[] : []).slice(0, 3).map((feature: string, i: number) => (
-                            <li key={i} className="flex items-center gap-2">
-                              <Check className="h-4 w-4 text-primary" />
-                              {feature}
+                            <li key={i} className="flex items-start gap-2">
+                              <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                              <span>{feature}</span>
                             </li>
                           ))}
                         </ul>
@@ -276,36 +277,37 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
             )}
 
             {/* Action Buttons */}
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={handleClose}>
+            <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
+              <Button variant="outline" onClick={handleClose} className="w-full sm:w-auto">
                 Cancel
               </Button>
-              <Button 
-                onClick={handleProceedToPayment} 
+              <Button
+                onClick={handleProceedToPayment}
                 disabled={!selectedPlan}
+                className="w-full sm:w-auto"
               >
                 Continue
-                <ArrowRight className="h-4 w-4 ml-1" />
+                <ArrowRight className="h-4 w-4 ml-1 hidden sm:block" />
               </Button>
             </div>
           </div>
         )}
 
         {step === 'payment' && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Order Summary */}
-            <div className="rounded-lg border bg-muted/30 p-4">
-              <h3 className="font-medium mb-2">Order Summary</h3>
-              <div className="flex justify-between text-sm">
+            <div className="rounded-lg border bg-muted/30 p-3 sm:p-4">
+              <h3 className="font-medium mb-2 text-sm sm:text-base">Order Summary</h3>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2 text-xs sm:text-sm">
                 <span>{selectedPlanDetails?.name} ({billingCycle})</span>
                 <span className="font-medium">KES {upgradeAmount.toLocaleString()}</span>
               </div>
             </div>
 
             {/* M-PESA Payment */}
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="phone">M-PESA Phone Number</Label>
+                <Label htmlFor="phone" className="text-sm">M-PESA Phone Number</Label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -313,7 +315,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                     placeholder="254712345678"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 text-sm"
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
@@ -323,18 +325,19 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-between">
-              <Button variant="outline" onClick={() => setStep('select')}>
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+              <Button variant="outline" onClick={() => setStep('select')} className="w-full sm:w-auto">
                 Back
               </Button>
-              <Button 
+              <Button
                 onClick={handleInitiatePayment}
                 disabled={!phoneNumber || initiatePayment.isPending}
+                className="w-full sm:w-auto"
               >
                 {initiatePayment.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    Sending Request...
+                    Sending...
                   </>
                 ) : (
                   <>

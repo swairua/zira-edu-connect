@@ -36,7 +36,7 @@ export function LessonPlanRejectDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-full max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <XCircle className="h-5 w-5 text-destructive" />
@@ -48,18 +48,18 @@ export function LessonPlanRejectDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
+        <div className="space-y-3 sm:space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="rejection-reason">Rejection Reason *</Label>
+            <Label htmlFor="rejection-reason" className="text-sm">Rejection Reason *</Label>
             <Textarea
               id="rejection-reason"
               placeholder="Enter your feedback..."
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              rows={4}
-              className="resize-none"
+              rows={3}
+              className="resize-none text-sm"
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground leading-relaxed">
               Be specific about what needs to be improved.
             </p>
           </div>

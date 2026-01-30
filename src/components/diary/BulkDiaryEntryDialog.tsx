@@ -200,7 +200,7 @@ export function BulkDiaryEntryDialog({ open, onOpenChange, classId, className }:
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh]">
+      <DialogContent className="w-full max-w-2xl sm:max-w-3xl max-h-[85vh] sm:max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" />
