@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { RefreshCw, Search, HelpCircle, Bell } from 'lucide-react';
+import { RefreshCw, Search, HelpCircle, Bell, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ interface UnifiedHeaderProps {
   actions?: ReactNode;
   rightContent?: ReactNode;
   notificationCount?: number;
+  onMobileMenuToggle?: () => void;
 }
 
 export function UnifiedHeader({
