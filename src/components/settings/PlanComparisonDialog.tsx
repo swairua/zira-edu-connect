@@ -293,11 +293,11 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
         )}
 
         {step === 'payment' && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Order Summary */}
-            <div className="rounded-lg border bg-muted/30 p-4">
-              <h3 className="font-medium mb-2">Order Summary</h3>
-              <div className="flex justify-between text-sm">
+            <div className="rounded-lg border bg-muted/30 p-3 sm:p-4">
+              <h3 className="font-medium mb-2 text-sm sm:text-base">Order Summary</h3>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2 text-xs sm:text-sm">
                 <span>{selectedPlanDetails?.name} ({billingCycle})</span>
                 <span className="font-medium">KES {upgradeAmount.toLocaleString()}</span>
               </div>
