@@ -39,20 +39,26 @@ export function usePricingFormulaRates() {
       const { data, error } = await supabase
         .from('billing_settings')
         .select('tier_base_setup_fee, tier_per_learner_setup, tier_base_annual_fee, tier_per_learner_annual, tier_private_multiplier')
-        .limit(1)
-        .single();
+        .limit(1);
 
       if (error) {
         console.error('Error fetching pricing rates:', error?.message || error?.details || JSON.stringify(error));
         return DEFAULT_RATES;
       }
 
+      // Handle case where no records exist
+      if (!data || data.length === 0) {
+        console.warn('No billing_settings record found, using default rates');
+        return DEFAULT_RATES;
+      }
+
+      const record = data[0];
       return {
-        tier_base_setup_fee: data.tier_base_setup_fee ?? DEFAULT_RATES.tier_base_setup_fee,
-        tier_per_learner_setup: data.tier_per_learner_setup ?? DEFAULT_RATES.tier_per_learner_setup,
-        tier_base_annual_fee: data.tier_base_annual_fee ?? DEFAULT_RATES.tier_base_annual_fee,
-        tier_per_learner_annual: data.tier_per_learner_annual ?? DEFAULT_RATES.tier_per_learner_annual,
-        tier_private_multiplier: data.tier_private_multiplier ?? DEFAULT_RATES.tier_private_multiplier,
+        tier_base_setup_fee: record.tier_base_setup_fee ?? DEFAULT_RATES.tier_base_setup_fee,
+        tier_per_learner_setup: record.tier_per_learner_setup ?? DEFAULT_RATES.tier_per_learner_setup,
+        tier_base_annual_fee: record.tier_base_annual_fee ?? DEFAULT_RATES.tier_base_annual_fee,
+        tier_per_learner_annual: record.tier_per_learner_annual ?? DEFAULT_RATES.tier_per_learner_annual,
+        tier_private_multiplier: record.tier_private_multiplier ?? DEFAULT_RATES.tier_private_multiplier,
       };
     },
   });
