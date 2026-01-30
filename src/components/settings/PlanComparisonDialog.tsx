@@ -252,19 +252,19 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
 
                         <Separator />
 
-                        <ul className="space-y-2 text-sm">
-                          <li className="flex items-center gap-2">
-                            <Check className="h-4 w-4 text-primary" />
-                            {plan.max_students === -1 ? 'Unlimited' : plan.max_students} students
+                        <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                          <li className="flex items-start gap-2">
+                            <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{plan.max_students === -1 ? 'Unlimited' : plan.max_students} students</span>
                           </li>
-                          <li className="flex items-center gap-2">
-                            <Check className="h-4 w-4 text-primary" />
-                            {plan.max_staff === -1 ? 'Unlimited' : plan.max_staff} staff
+                          <li className="flex items-start gap-2">
+                            <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{plan.max_staff === -1 ? 'Unlimited' : plan.max_staff} staff</span>
                           </li>
                           {(Array.isArray(plan.features) ? plan.features as string[] : []).slice(0, 3).map((feature: string, i: number) => (
-                            <li key={i} className="flex items-center gap-2">
-                              <Check className="h-4 w-4 text-primary" />
-                              {feature}
+                            <li key={i} className="flex items-start gap-2">
+                              <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                              <span>{feature}</span>
                             </li>
                           ))}
                         </ul>
