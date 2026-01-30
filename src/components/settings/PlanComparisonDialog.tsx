@@ -159,12 +159,12 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                   variant={billingCycle === 'annual' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setBillingCycle('annual')}
-                  className="gap-1"
+                  className="gap-1 text-xs sm:text-sm"
                 >
                   <Sparkles className="h-3 w-3" />
-                  Annual
+                  <span>Annual</span>
                   {billingSettings?.annual_discount_percent && billingSettings.annual_discount_percent > 0 && (
-                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800">
+                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800 text-xs">
                       Save {billingSettings.annual_discount_percent}%
                     </Badge>
                   )}
@@ -175,12 +175,12 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                   variant={billingCycle === 'termly' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setBillingCycle('termly')}
-                  className="gap-1"
+                  className="gap-1 text-xs sm:text-sm"
                 >
                   <Calendar className="h-3 w-3" />
-                  Termly
+                  <span>Termly</span>
                   {billingSettings?.termly_discount_percent && billingSettings.termly_discount_percent > 0 && (
-                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800">
+                    <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800 text-xs">
                       Save {billingSettings.termly_discount_percent}%
                     </Badge>
                   )}
@@ -191,6 +191,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                   variant={billingCycle === 'monthly' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setBillingCycle('monthly')}
+                  className="text-xs sm:text-sm"
                 >
                   Monthly
                 </Button>
