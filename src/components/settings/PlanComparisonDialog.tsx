@@ -207,7 +207,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                 No plans available. Please contact support.
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {plans?.filter(p => p.id !== 'custom').map((plan) => {
                   const isCurrent = plan.id === currentPlanId;
                   const isSelected = plan.id === selectedPlan;
