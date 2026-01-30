@@ -101,6 +101,7 @@ import BulkSMS from "./pages/communication/BulkSMS";
 import Announcements from "./pages/communication/Announcements";
 import SMSHistory from "./pages/communication/SMSHistory";
 import MessageTemplates from "./pages/communication/MessageTemplates";
+import PushNotifications from "./pages/communication/PushNotifications";
 // Advanced Reports Pages
 import ReportsDashboard from "./pages/advancedreports/ReportsDashboard";
 import AdvancedFinancialReports from "./pages/advancedreports/FinancialReports";
