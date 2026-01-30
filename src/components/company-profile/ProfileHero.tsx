@@ -24,7 +24,7 @@ export const ProfileHero = ({ onDownloadPDF, isGeneratingPDF }: ProfileHeroProps
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-300 rounded-full blur-[150px]" />
       </div>
       
-      <div className="container mx-auto px-4 relative z-10 pt-8 pb-24">
+      <div className="container mx-auto px-4 relative z-10 pt-24 pb-24">
         {/* Download button - top right */}
         <div className="flex justify-end mb-8">
           <Button 
