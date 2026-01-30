@@ -852,6 +852,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/communication/push-notifications"
+                element={
+                  <ProtectedRoute permission={{ domain: "communication", action: "create" }} requiresInstitution>
+                    <PushNotifications />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Advanced Reports Routes */}
               <Route
