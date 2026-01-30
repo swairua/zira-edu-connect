@@ -324,18 +324,19 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-between">
-              <Button variant="outline" onClick={() => setStep('select')}>
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+              <Button variant="outline" onClick={() => setStep('select')} className="w-full sm:w-auto">
                 Back
               </Button>
-              <Button 
+              <Button
                 onClick={handleInitiatePayment}
                 disabled={!phoneNumber || initiatePayment.isPending}
+                className="w-full sm:w-auto"
               >
                 {initiatePayment.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    Sending Request...
+                    Sending...
                   </>
                 ) : (
                   <>
