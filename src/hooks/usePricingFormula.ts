@@ -73,15 +73,27 @@ export function useUpdatePricingFormulaRates() {
       const { data: existing, error: fetchError } = await supabase
         .from('billing_settings')
         .select('id')
-        .limit(1)
-        .single();
+        .limit(1);
 
       if (fetchError) {
         throw new Error(`Failed to fetch billing settings: ${fetchError.message}`);
       }
 
-      if (!existing) {
-        throw new Error('No billing settings found. Please create a billing settings record first.');
+      // If no record exists, create one
+      if (!existing || existing.length === 0) {
+        const { error: insertError } = await supabase
+          .from('billing_settings')
+          .insert([{
+            ...DEFAULT_RATES,
+            ...rates,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }]);
+
+        if (insertError) {
+          throw new Error(`Failed to create billing settings: ${insertError.message}`);
+        }
+        return;
       }
 
       const { error } = await supabase
@@ -90,7 +102,7 @@ export function useUpdatePricingFormulaRates() {
           ...rates,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', existing.id);
+        .eq('id', existing[0].id);
 
       if (error) {
         throw new Error(`Failed to update billing settings: ${error.message}`);
