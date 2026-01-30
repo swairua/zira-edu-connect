@@ -1,0 +1,201 @@
+import { useState } from 'react';
+import { Sparkles, ArrowRight, GraduationCap, Users, BookOpen, Eye, Calculator } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+ 
+import { supabase } from '@/integrations/supabase/client';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { toast } from 'sonner';
+
+export function DemoBanner() {
+  const [isSwitching, setIsSwitching] = useState(false);
+
+  const handleDemoSwitch = async (viewType: 'student' | 'parent' | 'teacher' | 'accountant') => {
+    if (viewType === 'teacher') {
+      setIsSwitching(true);
+      const { error } = await supabase.auth.signInWithPassword({
+        email: 'teacher.demo@zira.tech',
+        password: 'DemoTeacher2024!',
+      });
+      if (error) {
+        toast.error('Demo teacher account not yet available');
+        setIsSwitching(false);
+        return;
+      }
+      window.location.href = '/portal';
+      return;
+    }
+
+    if (viewType === 'accountant') {
+      setIsSwitching(true);
+      const { error } = await supabase.auth.signInWithPassword({
+        email: 'accountant.demo@zira.tech',
+        password: 'DemoAccountant2024!',
+      });
+      if (error) {
+        toast.error('Demo accountant account not yet available');
+        setIsSwitching(false);
+        return;
+      }
+      window.location.href = '/portal/finance';
+      return;
+    }
+
+    setIsSwitching(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('demo-portal-access', {
+        body: { userType: viewType }
+      });
+
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Failed to switch view');
+
+      // Store session tokens with the correct keys that auth contexts expect
+      if (viewType === 'student') {
+        localStorage.setItem('student_session_token', data.token);
+        localStorage.setItem('student_session_expiry', data.expiresAt);
+      } else if (viewType === 'parent') {
+        localStorage.setItem('parent_session_token', data.token);
+        localStorage.setItem('parent_session_expiry', data.expiresAt);
+        localStorage.setItem('parent_session_data', JSON.stringify({
+          parent: data.user || data.userData,
+          institution: data.institution,
+          isDemo: true,
+        }));
+        localStorage.setItem('parent_session_verified', 'true');
+      }
+
+      // Use hard navigation to ensure auth contexts re-initialize
+      window.location.href = `/${viewType}`;
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to switch demo view');
+      setIsSwitching(false);
+    }
+  };
+
+  const handleStartFreeTrial = async () => {
+    // Clear all demo sessions
+    localStorage.removeItem('student_session_token');
+    localStorage.removeItem('student_session_expiry');
+    localStorage.removeItem('parent_session_token');
+    localStorage.removeItem('parent_session_expiry');
+    localStorage.removeItem('parent_session_data');
+    
+    // Sign out from Supabase Auth (demo admin/teacher sessions)
+    await supabase.auth.signOut();
+    
+    // Navigate to signup
+    window.location.href = '/auth?tab=signup';
+  };
+
+  return (
+    <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-white px-4 py-2 relative">
+      <div className="container mx-auto flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3 flex-1">
+          <Sparkles className="h-4 w-4 animate-pulse flex-shrink-0" />
+          <span className="text-sm font-medium">
+            <span className="hidden sm:inline">You are viewing a </span>
+            <strong>Demo Account</strong>
+            <span className="hidden lg:inline"> — Data resets daily. Explore all features freely!</span>
+          </span>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          {/* Desktop View Switcher */}
+          <div className="hidden lg:flex items-center gap-1 mr-2 border-r border-white/30 pr-3">
+            <span className="text-xs text-white/80 mr-2">Switch view:</span>
+            <Button 
+              size="sm" 
+              variant="ghost"
+              className="text-white hover:bg-white/20 text-xs h-7 px-2"
+              onClick={() => handleDemoSwitch('student')}
+              disabled={isSwitching}
+            >
+              <GraduationCap className="h-3 w-3 mr-1" />
+              Student
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost"
+              className="text-white hover:bg-white/20 text-xs h-7 px-2"
+              onClick={() => handleDemoSwitch('parent')}
+              disabled={isSwitching}
+            >
+              <Users className="h-3 w-3 mr-1" />
+              Parent
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost"
+              className="text-white hover:bg-white/20 text-xs h-7 px-2"
+              onClick={() => handleDemoSwitch('teacher')}
+              disabled={isSwitching}
+            >
+              <BookOpen className="h-3 w-3 mr-1" />
+              Teacher
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost"
+              className="text-white hover:bg-white/20 text-xs h-7 px-2"
+              onClick={() => handleDemoSwitch('accountant')}
+              disabled={isSwitching}
+            >
+              <Calculator className="h-3 w-3 mr-1" />
+              Accountant
+            </Button>
+          </div>
+
+          {/* Mobile View Switcher Dropdown */}
+          <div className="lg:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  className="text-white hover:bg-white/20 h-7 px-2"
+                  disabled={isSwitching}
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => handleDemoSwitch('student')}>
+                  <GraduationCap className="h-4 w-4 mr-2" />
+                  Student View
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDemoSwitch('parent')}>
+                  <Users className="h-4 w-4 mr-2" />
+                  Parent View
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDemoSwitch('teacher')}>
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Teacher View
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDemoSwitch('accountant')}>
+                  <Calculator className="h-4 w-4 mr-2" />
+                  Accountant View
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          <Button 
+            size="sm" 
+            variant="secondary"
+            onClick={handleStartFreeTrial}
+            className="bg-white text-orange-600 hover:bg-orange-50 font-semibold text-xs h-7 px-3"
+          >
+            <span className="hidden sm:inline">Start Free Trial</span>
+            <span className="sm:hidden">Sign Up</span>
+            <ArrowRight className="h-3 w-3 ml-1" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

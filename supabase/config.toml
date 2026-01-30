@@ -1,0 +1,88 @@
+project_id = "mpbqkvseaiolalnniqud"
+
+[functions.send-welcome-email]
+verify_jwt = false
+
+[functions.send-payment-reminder]
+verify_jwt = false
+
+[functions.create-institution-user]
+verify_jwt = false
+
+[functions.invite-parent]
+verify_jwt = false
+
+[functions.invite-student]
+verify_jwt = false
+
+[functions.generate-student-pin]
+verify_jwt = false
+
+[functions.student-pin-login]
+verify_jwt = false
+
+[functions.verify-student-session]
+verify_jwt = false
+
+[functions.send-sms]
+verify_jwt = false
+
+[functions.send-bulk-sms]
+verify_jwt = false
+
+[functions.request-otp]
+verify_jwt = false
+
+[functions.verify-otp]
+verify_jwt = false
+
+[functions.verify-parent-session]
+verify_jwt = false
+
+[functions.student-data-api]
+verify_jwt = false
+
+[functions.seed-demo-institution]
+verify_jwt = false
+
+[functions.process-exam-deadline-reminders]
+verify_jwt = false
+
+[functions.process-birthday-notifications]
+verify_jwt = false
+
+[functions.process-attendance-alerts]
+verify_jwt = false
+
+[functions.process-payment-confirmations]
+verify_jwt = false
+
+[functions.process-installment-reminders]
+verify_jwt = false
+
+[functions.process-commitment-reminders]
+verify_jwt = false
+
+[functions.process-notification-queue]
+verify_jwt = false
+
+[functions.process-activity-reminders]
+verify_jwt = false
+
+[functions.process-assignment-reminders]
+verify_jwt = false
+
+[functions.process-grade-notifications]
+verify_jwt = false
+
+[functions.process-library-reminders]
+verify_jwt = false
+
+[functions.process-transport-notifications]
+verify_jwt = false
+
+[functions.generate-questions]
+verify_jwt = false
+
+[functions.generate-lesson-content]
+verify_jwt = false
