@@ -181,6 +181,9 @@ function handleNotificationTap(notification: PushNotificationSchema) {
  * Remove all push notification listeners
  */
 export function removePushNotificationListeners() {
+  if (!isNativePlatform()) {
+    return;
+  }
   PushNotifications.removeAllListeners();
 }
 
@@ -189,6 +192,12 @@ export function removePushNotificationListeners() {
  */
 export async function requestNotificationPermission(): Promise<boolean> {
   try {
+    // Only request permission on native platforms
+    if (!isNativePlatform()) {
+      console.log('Notification permissions only available on native platforms');
+      return false;
+    }
+
     const result = await PushNotifications.requestPermissions();
     return result.receive !== 'denied';
   } catch (error) {
