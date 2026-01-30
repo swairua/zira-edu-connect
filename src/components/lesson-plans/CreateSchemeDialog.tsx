@@ -195,7 +195,7 @@ export function CreateSchemeDialog({ open, onOpenChange, editScheme }: CreateSch
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col p-0">
+      <DialogContent className="w-full max-w-2xl sm:max-w-4xl max-h-[85vh] sm:max-h-[90vh] flex flex-col p-0">
         <DialogHeader className="px-6 pt-6 pb-2">
           <DialogTitle>
             {step === 'header' ? 'Create Scheme of Work' : 'Define Weekly Entries'}
