@@ -153,7 +153,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
         {step === 'select' && (
           <div className="space-y-6">
             {/* Billing Cycle Toggle - Dynamic based on settings */}
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
               {enabledCycles.includes('annual') && (
                 <Button
                   variant={billingCycle === 'annual' ? 'default' : 'outline'}
