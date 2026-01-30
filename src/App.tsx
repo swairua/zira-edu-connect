@@ -261,8 +261,11 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+function App() {
+  usePushNotifications();
+
+  return (
+    <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
         <StudentAuthProvider>
@@ -1105,6 +1108,7 @@ const App = () => (
     </AuthProvider>
   </TooltipProvider>
 </QueryClientProvider>
-);
+  );
+}
 
 export default App;
