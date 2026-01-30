@@ -1,5 +1,5 @@
 import { PushNotifications, Token, PushNotificationSchema } from '@capacitor/push-notifications';
-import { supabase } from '@/integrations/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 /**
  * Initialize push notifications
