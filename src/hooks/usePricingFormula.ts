@@ -64,14 +64,18 @@ export function useUpdatePricingFormulaRates() {
 
   return useMutation({
     mutationFn: async (rates: Partial<PricingFormulaRates>) => {
-      const { data: existing } = await supabase
+      const { data: existing, error: fetchError } = await supabase
         .from('billing_settings')
         .select('id')
         .limit(1)
         .single();
 
+      if (fetchError) {
+        throw new Error(`Failed to fetch billing settings: ${fetchError.message}`);
+      }
+
       if (!existing) {
-        throw new Error('Billing settings not found');
+        throw new Error('No billing settings found. Please create a billing settings record first.');
       }
 
       const { error } = await supabase
@@ -82,7 +86,9 @@ export function useUpdatePricingFormulaRates() {
         })
         .eq('id', existing.id);
 
-      if (error) throw error;
+      if (error) {
+        throw new Error(`Failed to update billing settings: ${error.message}`);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pricing-formula-rates'] });
