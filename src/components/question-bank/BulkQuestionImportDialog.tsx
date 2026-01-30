@@ -256,7 +256,7 @@ export function BulkQuestionImportDialog({ open, onOpenChange, onSuccess }: Bulk
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
+      <DialogContent className="w-full max-w-2xl sm:max-w-3xl max-h-[85vh] sm:max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>
             {step === 'upload' && 'Import Questions from CSV'}
