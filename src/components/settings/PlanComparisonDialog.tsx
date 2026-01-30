@@ -304,9 +304,9 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
             </div>
 
             {/* M-PESA Payment */}
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="phone">M-PESA Phone Number</Label>
+                <Label htmlFor="phone" className="text-sm">M-PESA Phone Number</Label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -314,7 +314,7 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                     placeholder="254712345678"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 text-sm"
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
