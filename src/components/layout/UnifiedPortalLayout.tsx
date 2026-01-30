@@ -47,7 +47,9 @@ export function UnifiedPortalLayout({
 }: UnifiedPortalLayoutProps) {
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     // Clear PWA caches to ensure fresh content on next login
