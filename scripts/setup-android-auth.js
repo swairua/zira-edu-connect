@@ -215,9 +215,11 @@ async function main() {
 
     console.log('✅ Android authentication setup completed successfully!\n');
     console.log('Next steps:');
-    console.log('  1. Run: npm run build');
-    console.log('  2. Run: npx cap sync android');
-    console.log('  3. Build APK in Android Studio\n');
+    console.log('  1. Run: npm run build:android   (builds web app & syncs to Android)');
+    console.log('  2. Run: npm run open:android    (opens Android Studio)');
+    console.log('  3. Build & run APK in Android Studio\n');
+    console.log('Or for first-time setup:');
+    console.log('  npm run init-android            (one-time initialization)\n');
   } catch (error) {
     console.error('❌ Error during setup:', error.message);
     process.exit(1);
