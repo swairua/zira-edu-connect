@@ -2,14 +2,20 @@
 
 /**
  * Android Auth Setup Helper Script
- * 
+ *
  * Configures authentication URLs for Android builds
  * Usage: node scripts/setup-android-auth.js [environment]
- * 
+ *
  * Examples:
- *   node scripts/setup-android-auth.js prod
- *   node scripts/setup-android-auth.js dev
- *   node scripts/setup-android-auth.js staging
+ *   npm run setup-android:prod
+ *   npm run setup-android:dev
+ *   npm run setup-android:staging
+ *
+ * Typical Workflow:
+ *   1. First time setup:  npm run init-android
+ *   2. Build web app:     npm run build:android
+ *   3. Open in Studio:    npm run open:android
+ *   4. Build & run APK in Android Studio
  */
 
 import fs from 'fs';
