@@ -276,16 +276,17 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
             )}
 
             {/* Action Buttons */}
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={handleClose}>
+            <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
+              <Button variant="outline" onClick={handleClose} className="w-full sm:w-auto">
                 Cancel
               </Button>
-              <Button 
-                onClick={handleProceedToPayment} 
+              <Button
+                onClick={handleProceedToPayment}
                 disabled={!selectedPlan}
+                className="w-full sm:w-auto"
               >
                 Continue
-                <ArrowRight className="h-4 w-4 ml-1" />
+                <ArrowRight className="h-4 w-4 ml-1 hidden sm:block" />
               </Button>
             </div>
           </div>
