@@ -266,6 +266,11 @@ const queryClient = new QueryClient({
 function App() {
   usePushNotifications();
 
+  useEffect(() => {
+    // Initialize auth configuration on app startup
+    initializeAuthConfig();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
     <TooltipProvider>
