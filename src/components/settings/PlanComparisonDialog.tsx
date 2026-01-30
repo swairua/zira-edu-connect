@@ -242,10 +242,10 @@ export function PlanComparisonDialog({ open, onOpenChange }: PlanComparisonDialo
                         </div>
 
                         <div>
-                          <span className="text-2xl font-bold">
+                          <span className="text-xl sm:text-2xl font-bold">
                             KES {price.toLocaleString()}
                           </span>
-                          <span className="text-muted-foreground">
+                          <span className="text-xs sm:text-sm text-muted-foreground">
                             {getBillingCycleShort(billingCycle)}
                           </span>
                         </div>
