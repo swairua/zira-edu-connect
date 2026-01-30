@@ -87,6 +87,11 @@ export async function getAndStoreFCMToken(): Promise<string | null> {
  * Setup push notification listeners
  */
 export function setupPushNotificationListeners() {
+  // Only setup listeners on native platforms
+  if (!isNativePlatform()) {
+    return;
+  }
+
   // Handle token refresh
   PushNotifications.addListener('registration', (event: Token) => {
     console.log('Push registration successful, token:', event.value);
