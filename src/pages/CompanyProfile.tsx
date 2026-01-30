@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { ProfileHero } from "@/components/company-profile/ProfileHero";
 import { AboutSection } from "@/components/company-profile/AboutSection";
 import { PlatformShowcase } from "@/components/company-profile/PlatformShowcase";
