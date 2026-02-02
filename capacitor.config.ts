@@ -10,16 +10,15 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 // Get auth URL from environment variables (set by setup-android-auth.js)
 const authUrl = process.env.VITE_AUTH_URL || 'https://ziraedx.com/auth';
-const capacitorUrl = process.env.VITE_CAPACITOR_URL || undefined;
+const capacitorUrl = process.env.VITE_CAPACITOR_URL || 'https://ziraedx.com';
 
 const config: CapacitorConfig = {
   appId: 'com.ziraeduconnect.app',
   appName: 'Zira Edu Connect',
   webDir: 'dist',
-  authUrl: authUrl,
   server: {
     androidScheme: 'https',
-    ...(capacitorUrl && { url: capacitorUrl }),
+    url: capacitorUrl,
   },
   plugins: {
     StatusBar: {
